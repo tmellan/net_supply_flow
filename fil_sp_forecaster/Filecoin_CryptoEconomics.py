@@ -22,7 +22,7 @@ st.markdown(
     
     **👈 Select "Forecaster" from the sidebar** to get started. 
     
-    In that page, you will see three slider bars allow you to configure the storage provider behavior that you want to test. You can change these parameters to see how they impact the main drivers of circulating supply.
+    In that page, you will see three slider bars allow you to configure future engagement with the Filecoin network.
     The three parameters are:
 
      - **RB Onboarding Rate** - This is the amount of raw-byte power that is onboarded every day onto the network, in units of PiB/day.
@@ -30,7 +30,7 @@ st.markdown(
      - **FIL+ Rate** - This is the percentage of onboarded data that is FIL+.
     
     Once these values are configured, click the "Forecast" button. The digital-twin runs in the background, taking into account both historical data pulled directly from the Filecoin blockchain and the mechanistic laws defining Filecoin's to
-    forecast pledge, minting rate, and network power. The results are displayed in the form of a graph, which you can download as a PNG file by clicking the "Download" button.
+    forecast pledge, block rewards, and network power. The results are displayed in the form of a graph, which you can download as a PNG file by clicking the "Download" button.
 
     ### Want to learn more?
 
