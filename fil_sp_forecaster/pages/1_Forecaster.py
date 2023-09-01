@@ -243,7 +243,7 @@ def run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length
     )
     # simulation_results = add_costs(simulation_results, cost_scaling_constant, filp_scaling_cost_pct)
     # pib_per_sector = C.PIB / C.SECTOR_SIZE
-    simulation_results['block_reward'] = simulation_results['day_network_rewards'] * (5*2880)
+    simulation_results['block_reward'] = simulation_results['day_network_reward'] * (5*2880)
     # # compute yearly cumulative returns
     # pledge = simulation_results['day_pledge_per_QAP']
     # rps = simulation_results['1y_return_per_sector']
