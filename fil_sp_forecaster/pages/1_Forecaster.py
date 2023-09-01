@@ -47,7 +47,7 @@ def get_offline_data(start_date, current_date, end_date):
 def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     # convert results dictionary into a dataframe so that we can use altair to make nice plots
     status_quo_results = scenario_results['status-quo']
-    col1 = st.columns(1)
+    # col1 = st.columns(1)
 
     power_dff = pd.DataFrame()
     power_dff['RBP'] = status_quo_results['rb_total_power_eib']
@@ -63,51 +63,51 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     pledge_dff['StatusQuo'] = status_quo_results['day_pledge_per_QAP']
     pledge_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=pledge_dff.shape[0]))
 
-    with col1:
-        power_df = pd.melt(power_dff, id_vars=["date"], 
-                            value_vars=[
-                                "Baseline", 
-                                "RBP", "QAP",],
-                            #    "RBP-Pessimistic", "QAP-Pessimistic",
-                            #    "RBP-Optimistic", "QAP-Optimistic"], 
-                            var_name='Power', 
-                            value_name='EIB')
-        power_df['EIB'] = power_df['EIB']
-        power = (
-            alt.Chart(power_df)
-            .mark_line()
-            .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                    y=alt.Y("EIB").scale(type='log'), color=alt.Color('Power', legend=alt.Legend(orient="top", title=None)))
-            .properties(title="Network Power")
-            .configure_title(fontSize=14, anchor='middle')
-        )
-        st.altair_chart(power.interactive(), use_container_width=True) 
+    # with col1:
+    power_df = pd.melt(power_dff, id_vars=["date"], 
+                        value_vars=[
+                            "Baseline", 
+                            "RBP", "QAP",],
+                        #    "RBP-Pessimistic", "QAP-Pessimistic",
+                        #    "RBP-Optimistic", "QAP-Optimistic"], 
+                        var_name='Power', 
+                        value_name='EIB')
+    power_df['EIB'] = power_df['EIB']
+    power = (
+        alt.Chart(power_df)
+        .mark_line()
+        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                y=alt.Y("EIB").scale(type='log'), color=alt.Color('Power', legend=alt.Legend(orient="top", title=None)))
+        .properties(title="Network Power")
+        .configure_title(fontSize=14, anchor='middle')
+    )
+    st.altair_chart(power.interactive(), use_container_width=True) 
 
-        pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
-                                    value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                                    var_name='Scenario', value_name='FIL')
-        day_pledge_per_QAP = (
-            alt.Chart(pledge_per_qap_df)
-            .mark_line()
-            .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                    y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
-            .properties(title="Pledge/32GiB QAP")
-            .configure_title(fontSize=14, anchor='middle')
-        )
-        st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
-
-        minting_df = pd.melt(minting_dff, id_vars=["date"],
+    pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
                                 value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                                var_name='Scenario', value_name='FILRate')
-        minting = (
-            alt.Chart(minting_df)
-            .mark_line()
-            .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                    y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
-            .properties(title="Block Rewards")
-            .configure_title(fontSize=14, anchor='middle')
-        )
-        st.altair_chart(minting.interactive(), use_container_width=True)
+                                var_name='Scenario', value_name='FIL')
+    day_pledge_per_QAP = (
+        alt.Chart(pledge_per_qap_df)
+        .mark_line()
+        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
+        .properties(title="Pledge/32GiB QAP")
+        .configure_title(fontSize=14, anchor='middle')
+    )
+    st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
+
+    minting_df = pd.melt(minting_dff, id_vars=["date"],
+                            value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
+                            var_name='Scenario', value_name='FILRate')
+    minting = (
+        alt.Chart(minting_df)
+        .mark_line()
+        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
+        .properties(title="Block Rewards")
+        .configure_title(fontSize=14, anchor='middle')
+    )
+    st.altair_chart(minting.interactive(), use_container_width=True)
 
 
 def add_costs(results_dict, cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5):
