@@ -47,161 +47,67 @@ def get_offline_data(start_date, current_date, end_date):
 def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     # convert results dictionary into a dataframe so that we can use altair to make nice plots
     status_quo_results = scenario_results['status-quo']
-    # status_quo_yearly_returns = scenario_results['status-quo'][1]
-    # pessimistic_results = scenario_results['pessimistic'][0]
-    # pessimistic_yearly_returns = scenario_results['pessimistic'][1]
-    # optimistic_results = scenario_results['optimistic'][0]
-    # optimistic_yearly_returns = scenario_results['optimistic'][1]
-
-    # col1, col2, col3 = st.columns(3)
-    # col1, col2 = st.columns(2)
+    col1 = st.columns(1)
 
     power_dff = pd.DataFrame()
     power_dff['RBP'] = status_quo_results['rb_total_power_eib']
     power_dff['QAP'] = status_quo_results['qa_total_power_eib']
-    # power_dff['RBP-Pessimistic'] = pessimistic_results['rb_total_power_eib']
-    # power_dff['QAP-Pessimistic'] = pessimistic_results['qa_total_power_eib']
-    # power_dff['RBP-Optimistic'] = optimistic_results['rb_total_power_eib']
-    # power_dff['QAP-Optimistic'] = optimistic_results['qa_total_power_eib']
     power_dff['Baseline'] = baseline
     power_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
 
     minting_dff = pd.DataFrame()
     minting_dff['StatusQuo'] = status_quo_results['block_reward']
-    # minting_dff['Pessimistic'] = pessimistic_results['day_network_reward']
-    # minting_dff['Optimistic'] = optimistic_results['day_network_reward']
     minting_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
-
-    # cs_dff = pd.DataFrame()
-    # cs_dff['StatusQuo'] = status_quo_results['circ_supply'] / 1e6
-    # # cs_dff['Pessimistic'] = pessimistic_results['day_network_reward']
-    # # cs_dff['Optimistic'] = optimistic_results['day_network_reward']
-    # cs_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
-
-    # locked_dff = pd.DataFrame()
-    # locked_dff['StatusQuo'] = status_quo_results['network_locked'] / 1e6
-    # # locked_dff['Pessimistic'] = pessimistic_results['day_network_reward']
-    # # locked_dff['Optimistic'] = optimistic_results['day_network_reward']
-    # locked_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
-
-    # returns_per_pib_dff = pd.DataFrame()
-    # returns_per_pib_dff['StatusQuo'] = status_quo_results['1y_return_per_pib']
-    # # returns_per_pib_dff['Pessimistic'] = pessimistic_results['1y_return_per_pib']
-    # # returns_per_pib_dff['Optimistic'] = optimistic_results['1y_return_per_pib']
-    # returns_per_pib_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=returns_per_pib_dff.shape[0]))
 
     pledge_dff = pd.DataFrame()
     pledge_dff['StatusQuo'] = status_quo_results['day_pledge_per_QAP']
-    # pledge_dff['Pessimistic'] = pessimistic_results['day_pledge_per_QAP']
-    # pledge_dff['Optimistic'] = optimistic_results['day_pledge_per_QAP']
     pledge_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=pledge_dff.shape[0]))
 
-    # roi_dff = pd.DataFrame()
-    # roi_dff['StatusQuo'] = status_quo_results['1y_sector_roi'] * 100
-    # # roi_dff['Pessimistic'] = pessimistic_results['1y_sector_roi'] * 100
-    # # roi_dff['Optimistic'] = optimistic_results['1y_sector_roi'] * 100
-    # roi_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=roi_dff.shape[0]))
+    with col1:
+        power_df = pd.melt(power_dff, id_vars=["date"], 
+                            value_vars=[
+                                "Baseline", 
+                                "RBP", "QAP",],
+                            #    "RBP-Pessimistic", "QAP-Pessimistic",
+                            #    "RBP-Optimistic", "QAP-Optimistic"], 
+                            var_name='Power', 
+                            value_name='EIB')
+        power_df['EIB'] = power_df['EIB']
+        power = (
+            alt.Chart(power_df)
+            .mark_line()
+            .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                    y=alt.Y("EIB").scale(type='log'), color=alt.Color('Power', legend=alt.Legend(orient="top", title=None)))
+            .properties(title="Network Power")
+            .configure_title(fontSize=14, anchor='middle')
+        )
+        st.altair_chart(power.interactive(), use_container_width=True) 
 
-    # roi_with_costs_dff = pd.DataFrame()
-    # roi_with_costs_dff['FIL+-sq'] = status_quo_results['FIL+']
-    # roi_with_costs_dff['CC-sq'] = status_quo_results['CC']
-    # # roi_with_costs_dff['FIL+-o'] = optimistic_results['FIL+']
-    # # roi_with_costs_dff['CC-o'] = optimistic_results['CC']
-    # # roi_with_costs_dff['FIL+-p'] = pessimistic_results['FIL+']
-    # # roi_with_costs_dff['CC-p'] = pessimistic_results['CC']
-    # roi_with_costs_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=roi_with_costs_dff.shape[0]))
-    
-    # with col1:
-    power_df = pd.melt(power_dff, id_vars=["date"], 
-                        value_vars=[
-                            "Baseline", 
-                            "RBP", "QAP",],
-                        #    "RBP-Pessimistic", "QAP-Pessimistic",
-                        #    "RBP-Optimistic", "QAP-Optimistic"], 
-                        var_name='Power', 
-                        value_name='EIB')
-    power_df['EIB'] = power_df['EIB']
-    power = (
-        alt.Chart(power_df)
-        .mark_line()
-        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("EIB").scale(type='log'), color=alt.Color('Power', legend=alt.Legend(orient="top", title=None)))
-        .properties(title="Network Power")
-        .configure_title(fontSize=14, anchor='middle')
-    )
-    st.altair_chart(power.interactive(), use_container_width=True) 
+        pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
+                                    value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
+                                    var_name='Scenario', value_name='FIL')
+        day_pledge_per_QAP = (
+            alt.Chart(pledge_per_qap_df)
+            .mark_line()
+            .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                    y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
+            .properties(title="Pledge/32GiB QAP")
+            .configure_title(fontSize=14, anchor='middle')
+        )
+        st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
 
-        # # NOTE: adding the tooltip here causes the chart to not render for some reason
-        # # Following the directions here: https://docs.streamlit.io/library/api-reference/charts/st.altair_chart
-        # roi_df = pd.melt(roi_dff, id_vars=["date"], 
-        #                  value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-        #                  var_name='Scenario', 
-        #                  value_name='%')
-        # roi = (
-        #     alt.Chart(roi_df)
-        #     .mark_line()
-        #     .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-        #             y=alt.Y("%"), color=alt.Color('Scenario', legend=None))
-        #     .properties(title="1Y Sector FoFR")
-        #     .configure_title(fontSize=14, anchor='middle')
-        #     # .add_params(hover)
-        # )
-        # st.altair_chart(roi.interactive(), use_container_width=True)
-
-    # with col2:
-        # pledge_per_qap_df = my_melt(cil_df_historical, cil_df_forecast, 'day_pledge_per_QAP')
-    pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
+        minting_df = pd.melt(minting_dff, id_vars=["date"],
                                 value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                                var_name='Scenario', value_name='FIL')
-    day_pledge_per_QAP = (
-        alt.Chart(pledge_per_qap_df)
-        .mark_line()
-        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
-        .properties(title="Pledge/32GiB QAP")
-        .configure_title(fontSize=14, anchor='middle')
-    )
-    st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
-
-    minting_df = pd.melt(minting_dff, id_vars=["date"],
-                            value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                            var_name='Scenario', value_name='FILRate')
-    minting = (
-        alt.Chart(minting_df)
-        .mark_line()
-        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
-        .properties(title="Block Rewards")
-        .configure_title(fontSize=14, anchor='middle')
-    )
-    st.altair_chart(minting.interactive(), use_container_width=True)
-
-    # with col3:
-    #     cs_df = pd.melt(cs_dff, id_vars=["date"],
-    #                          value_vars=["StatusQuo"], #, "Pessimistic", "Optimistic"], 
-    #                          var_name='Scenario', value_name='cs')
-    #     cs = (
-    #         alt.Chart(cs_df)
-    #         .mark_line()
-    #         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-    #                 y=alt.Y("cs", title='M-FIL'), color=alt.Color('Scenario', legend=None))
-    #         .properties(title="Circulating Supply")
-    #         .configure_title(fontSize=14, anchor='middle')
-    #     )
-    #     st.altair_chart(cs.interactive(), use_container_width=True)
-
-    #     locked_df = pd.melt(locked_dff, id_vars=["date"],
-    #                          value_vars=["StatusQuo"], #, "Pessimistic", "Optimistic"], 
-    #                          var_name='Scenario', value_name='cs')
-    #     locked = (
-    #         alt.Chart(locked_df)
-    #         .mark_line()
-    #         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-    #                 y=alt.Y("cs", title='M-FIL'), color=alt.Color('Scenario', legend=None))
-    #         .properties(title="Network Locked")
-    #         .configure_title(fontSize=14, anchor='middle')
-    #     )
-    #     st.altair_chart(locked.interactive(), use_container_width=True)
+                                var_name='Scenario', value_name='FILRate')
+        minting = (
+            alt.Chart(minting_df)
+            .mark_line()
+            .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                    y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
+            .properties(title="Block Rewards")
+            .configure_title(fontSize=14, anchor='middle')
+        )
+        st.altair_chart(minting.interactive(), use_container_width=True)
 
 
 def add_costs(results_dict, cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5):
