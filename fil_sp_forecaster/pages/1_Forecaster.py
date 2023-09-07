@@ -65,7 +65,7 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     supplyflow_dff = pd.DataFrame()
     supplyflow_dff['StatusQuo'] = status_quo_results['circ_supply'].diff().rolling(7).median().dropna() / 1_000_000
-    supplyflow_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=supplyflow_dff.shape[0]))
+    supplyflow_dff['date'] = pledge_dff['date'].tail(supplyflow_dff.shape[0])
     
     # with col1:
     power_df = pd.melt(power_dff, id_vars=["date"], 
@@ -116,12 +116,12 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     supplyflow_df = pd.melt(supplyflow_dff, id_vars=["date"],
                                 value_vars=["StatusQuo"],
-                                var_name='Scenario', value_name='FIL')
+                                var_name='Scenario', value_name='M-FIL')
     supplyflow = (
         alt.Chart(supplyflow_df)
         .mark_line()
         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
+                y=alt.Y("M-FIL"), color=alt.Color('Scenario', legend=None))
         .properties(title="Net Supply Flow")
         .configure_title(fontSize=14, anchor='middle')
     )
