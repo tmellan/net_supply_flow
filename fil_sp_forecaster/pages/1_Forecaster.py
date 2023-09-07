@@ -205,7 +205,7 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     # cost_scaling_constant = st.session_state['cost_scaling_constant']
     # filp_scaling_cost_pct = st.session_state['filp_scaling_cost_pct']
 
-    lock_target = 0.3
+    lock_target = st.session_state['lock_target_slider']
     sector_duration_days = 360
     
     # get offline data
@@ -278,7 +278,7 @@ def main():
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("FIL+ Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical_fil_plus_pct, step=1, format='%d', key="fpr_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        st.slider("Lock Target", min_value=0.1, max_value=0.9, value=smoothed_last_historical_fil_plus_pct, step=1, format='%d', key="tl_slider",
+        st.slider("Lock Target", min_value=0.1, max_value=0.9, value=0.3, step=1, format='%d', key="lock_target_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         
         st.button("Forecast", on_click=forecast_economy, kwargs=forecast_kwargs, key="forecast_button")
