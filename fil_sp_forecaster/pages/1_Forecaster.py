@@ -63,6 +63,10 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     pledge_dff['StatusQuo'] = status_quo_results['day_pledge_per_QAP']
     pledge_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=pledge_dff.shape[0]))
 
+    supplyflow_dff = pd.DataFrame()
+    supplyflow_dff['StatusQuo'] = status_quo_results['circ_supply'].diff().rolling(7).median().dropna() / 1_000_000
+    supplyflow_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=supplyflow_dff.shape[0]))
+    
     # with col1:
     power_df = pd.melt(power_dff, id_vars=["date"], 
                         value_vars=[
@@ -108,6 +112,20 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
         .configure_title(fontSize=14, anchor='middle')
     )
     st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
+
+
+    supplyflow_df = pd.melt(supplyflow_dff, id_vars=["date"],
+                                value_vars=["StatusQuo"],
+                                var_name='Scenario', value_name='FIL')
+    supplyflow = (
+        alt.Chart(supplyflow_df)
+        .mark_line()
+        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+                y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
+        .properties(title="Net Supply Flow")
+        .configure_title(fontSize=14, anchor='middle')
+    )
+    st.altair_chart(supplyflow.interactive(), use_container_width=True)
 
 
 def add_costs(results_dict, cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5):
