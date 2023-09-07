@@ -207,6 +207,7 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
 
     lock_target = st.session_state['lock_target_slider']
     sector_duration_days = st.session_state['av_dur_slider']
+    forecast_length_days=(365*3)
     
     # get offline data
     t2 = time.time()
@@ -252,7 +253,7 @@ def main():
     current_date = date.today() - timedelta(days=3)
     mo_start = max(current_date.month - 1 % 12, 1)
     start_date = date(current_date.year, mo_start, 1)
-    forecast_length_days=(365*3)
+    
     end_date = current_date + timedelta(days=forecast_length_days)
     forecast_kwargs = {
         'start_date': start_date,
