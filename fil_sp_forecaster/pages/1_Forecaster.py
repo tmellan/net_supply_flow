@@ -262,8 +262,8 @@ def main():
     forecast_kwargs = {
         'start_date': start_date,
         'current_date': current_date,
-        'end_date': end_date,
-        'forecast_length_days': forecast_length_days,
+        # 'end_date': end_date,
+        # 'forecast_length_days': forecast_length_days,
     }
 
     _, smoothed_last_historical_rbp, smoothed_last_historical_rr, smoothed_last_historical_fpr = get_offline_data(start_date, current_date, end_date)
