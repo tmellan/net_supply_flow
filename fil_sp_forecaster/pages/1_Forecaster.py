@@ -256,14 +256,14 @@ def main():
     mo_start = max(current_date.month - 1 % 12, 1)
     start_date = date(current_date.year, mo_start, 1)
 
-    # forecast_length_days=st.session_state['forecast_length_slider']
-    # end_date = current_date + timedelta(days=forecast_length_days)
+    forecast_length_days=(3*365)
+    end_date = current_date + timedelta(days=forecast_length_days)
     
     forecast_kwargs = {
         'start_date': start_date,
         'current_date': current_date,
-        # 'end_date': end_date,
-        # 'forecast_length_days': forecast_length_days,
+        'end_date': end_date,
+        'forecast_length_days': forecast_length_days,
     }
 
     _, smoothed_last_historical_rbp, smoothed_last_historical_rr, smoothed_last_historical_fpr = get_offline_data(start_date, current_date, end_date)
