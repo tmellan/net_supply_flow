@@ -208,8 +208,8 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     lock_target = st.session_state['lock_target_slider']
     sector_duration_days = st.session_state['av_dur_slider']
 
-    forecast_length_days=st.session_state['forecast_length_slider']
-    end_date = current_date + timedelta(days=forecast_length_days)
+    # forecast_length_days=st.session_state['forecast_length_slider']
+    # end_date = current_date + timedelta(days=forecast_length_days)
     
     # get offline data
     t2 = time.time()
@@ -260,7 +260,7 @@ def main():
     mo_start = max(current_date.month - 1 % 12, 1)
     start_date = date(current_date.year, mo_start, 1)
 
-    forecast_length_days=forecast_len()
+    forecast_length_days=(365*10)
     end_date = current_date + timedelta(days=forecast_length_days)
     
     forecast_kwargs = {
@@ -281,8 +281,8 @@ def main():
     with st.sidebar:
         st.title('Filecoin Economics Explorer')
 
-        st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%i', key="forecast_length_slider",
-                on_change=forecast_len, disabled=False, label_visibility="visible")
+        # st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%i', key="forecast_length_slider",
+        #         on_change=forecast_len, disabled=False, label_visibility="visible")
         st.slider("Raw Byte Onboarding (PiB/day)", min_value=3., max_value=50., value=smoothed_last_historical_rbp, step=.1, format='%0.02f', key="rbp_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Renewal Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical_renewal_pct, step=1, format='%d', key="rr_slider",
