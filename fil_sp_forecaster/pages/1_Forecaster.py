@@ -246,6 +246,10 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     # d.debug(f"Time to forecast: {t4-t3}")
     # d.debug(f"Total Time: {t4-t1}")
 
+def forecast_len():
+    forecast_length_days=st.session_state['forecast_length_slider']
+    return forecast_length_days
+
 def main():
     st.set_page_config(
         page_title="Filecoin Economics Explorer",
@@ -256,7 +260,7 @@ def main():
     mo_start = max(current_date.month - 1 % 12, 1)
     start_date = date(current_date.year, mo_start, 1)
 
-    forecast_length_days=(3*365)
+    forecast_length_days=forecast_len()
     end_date = current_date + timedelta(days=forecast_length_days)
     
     forecast_kwargs = {
@@ -287,8 +291,8 @@ def main():
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Average Sector Duration", min_value=180, max_value=540, value=360, step=10, format='%d', key="av_dur_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        # st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%d', key="forecast_length_slider",
-        #         on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
+        st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%d', key="forecast_length_slider",
+                on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         
         st.button("Forecast", on_click=forecast_economy, kwargs=forecast_kwargs, key="forecast_button")
 
