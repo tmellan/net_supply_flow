@@ -295,7 +295,7 @@ def main():
         st.slider("Lock Target", min_value=0.1, max_value=0.9, value=0.3, step=0.01, format='%.2f', key="lock_target_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Average Sector Duration", min_value=180, max_value=540, value=360, step=10, format='%d', key="av_dur_slider",
-                on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible
+                on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible)
         st.slider("Burn XFactor", min_value=0.1, max_value=10, value=1, step=0.1, format='%.2f', key="burn_factor_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
 
