@@ -69,6 +69,7 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     supplyflow_dff['StatusQuo'] = status_quo_results['circ_supply'].diff().rolling(7).median() / 1_000_000
     supplyflow_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
+    supplyflow_dff.dropna(inplace=True)
     
     # with col1:
     power_df = pd.melt(power_dff, id_vars=["date"], 
