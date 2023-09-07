@@ -278,6 +278,8 @@ def main():
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("FIL+ Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical_fil_plus_pct, step=1, format='%d', key="fpr_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
+        st.slider("Lock Target", min_value=0.1, max_value=0.9, value=smoothed_last_historical_fil_plus_pct, step=1, format='%d', key="tl_slider",
+                on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         
         st.button("Forecast", on_click=forecast_economy, kwargs=forecast_kwargs, key="forecast_button")
 
