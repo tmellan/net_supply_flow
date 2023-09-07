@@ -208,8 +208,8 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     lock_target = st.session_state['lock_target_slider']
     sector_duration_days = st.session_state['av_dur_slider']
 
-    forecast_length_days=st.session_state['forecast_length_slider']
-    end_date = current_date + timedelta(days=forecast_length_days)
+    # forecast_length_days=st.session_state['forecast_length_slider']
+    # end_date = current_date + timedelta(days=forecast_length_days)
     
     # get offline data
     t2 = time.time()
@@ -287,8 +287,8 @@ def main():
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Average Sector Duration", min_value=180, max_value=540, value=360, step=10, format='%d', key="av_dur_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%d', key="forecast_length_slider",
-                on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
+        # st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%d', key="forecast_length_slider",
+        #         on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         
         st.button("Forecast", on_click=forecast_economy, kwargs=forecast_kwargs, key="forecast_button")
 
