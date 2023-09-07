@@ -153,7 +153,7 @@ def add_costs(results_dict, cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5
     results_dict['CC'] = 100*(rps*multiplier - cc_roi_total_costs)/(dppq*multiplier)
     return results_dict
 
-def run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length_days, sector_duration_days, offline_data, 
+def run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length_days, sector_duration_days, burn_boost, offline_data, 
             cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5):
     simulation_results = sim.run_sim(
         rbp,
@@ -165,6 +165,7 @@ def run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length
         current_date,
         forecast_length_days,
         sector_duration_days,
+        burn_boost,
         offline_data
     )
     # simulation_results = add_costs(simulation_results, cost_scaling_constant, filp_scaling_cost_pct)
@@ -208,6 +209,8 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     lock_target = st.session_state['lock_target_slider']
     sector_duration_days = st.session_state['av_dur_slider']
 
+    burn_boost = 2
+
     # forecast_length_days=st.session_state['forecast_length_slider']
     # end_date = current_date + timedelta(days=forecast_length_days)
     
@@ -232,7 +235,7 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
         rr = jnp.ones(forecast_length_days) * rr_val
         fpr = jnp.ones(forecast_length_days) * fpr_val
         
-        simulation_results = run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length_days, sector_duration_days, offline_data) 
+        simulation_results = run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length_days, sector_duration_days,burn_boost, offline_data) 
                 #cost_scaling_constant=cost_scaling_constant, filp_scaling_cost_pct=filp_scaling_cost_pct)
         scenario_results[scenario_strings[ii]] = simulation_results
 
