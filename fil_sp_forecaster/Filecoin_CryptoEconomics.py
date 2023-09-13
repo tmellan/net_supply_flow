@@ -35,9 +35,9 @@ st.markdown(
     Once these values are configured, click the "Forecast" button. The digital-twin runs in the background, taking into account both historical data pulled directly from the Filecoin blockchain and the mechanistic laws defining Filecoin's to
     forecast pledge, block rewards, and network power. The results are displayed in the form of a graph, which you can download as a PNG file by clicking the "Download" button
 
-    **👈 Select "Optimal Locking" from the sidebar** to get started. 
+    **👈 Next, select "Optimal Locking" from the sidebar**.  
     
-    This pages explore the tradeoff between exchange rate sensitivity and costs to illustrate an optimal level of network locking. 
+    This pages explore the tradeoff between exchange rate sensitivity and costs to illustrate an optimal level of locking to incentivise network growth.
 
     ### Want to learn more?
 
