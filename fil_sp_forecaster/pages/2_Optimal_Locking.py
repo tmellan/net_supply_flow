@@ -62,7 +62,7 @@ with st.sidebar:
         on_change=plot_ROI
     )
     st.slider(
-        "XR locking sensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
+        "XR locking sensitivity", min_value=1, max_value=95, value=60, step=1, key="pct_fiat_cost",
         on_change=plot_ROI
     )
     st.button("Run", on_click=plot_ROI)
