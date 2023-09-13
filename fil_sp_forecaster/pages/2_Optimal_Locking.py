@@ -2,9 +2,10 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 import numpy as np
+
 def xr(locking_pct_change, xr_locking_sensitivity):
     return 1 + locking_pct_change * xr_locking_sensitivity / 100
-
+    
 def pledge(pledge0, locking_pct_change):
     return pledge0 * (1 + locking_pct_change / 100)
     
@@ -39,7 +40,7 @@ def plot_ROI():
         height=400
     )
     st.altair_chart(chart)
-
+    
 st.set_page_config(
     page_title="Optimal",
     page_icon="🚀",  # TODO: can update this to the FIL logo
