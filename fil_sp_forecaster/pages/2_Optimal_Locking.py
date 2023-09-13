@@ -34,7 +34,7 @@ def plot_ROI():
     chart = alt.Chart(plot_df).mark_line().encode(
         x='TL',
         y='Value',
-        color='ROI'
+        # color='ROI'
     ).properties(
         width=800,
         height=400
