@@ -89,31 +89,31 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     # )
     # st.altair_chart(power.interactive(), use_container_width=True) 
 
-    minting_df = pd.melt(minting_dff, id_vars=["date"],
-                            value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                            var_name='Scenario', value_name='FILRate')
-    minting = (
-        alt.Chart(minting_df)
-        .mark_line()
-        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
-        .properties(title="Block Rewards")
-        .configure_title(fontSize=14, anchor='middle')
-    )
-    st.altair_chart(minting.interactive(), use_container_width=True)
+    # minting_df = pd.melt(minting_dff, id_vars=["date"],
+    #                         value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
+    #                         var_name='Scenario', value_name='FILRate')
+    # minting = (
+    #     alt.Chart(minting_df)
+    #     .mark_line()
+    #     .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+    #             y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
+    #     .properties(title="Block Rewards")
+    #     .configure_title(fontSize=14, anchor='middle')
+    # )
+    # st.altair_chart(minting.interactive(), use_container_width=True)
 
-    pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
-                                value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                                var_name='Scenario', value_name='FIL')
-    day_pledge_per_QAP = (
-        alt.Chart(pledge_per_qap_df)
-        .mark_line()
-        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
-        .properties(title="Pledge/32GiB QAP")
-        .configure_title(fontSize=14, anchor='middle')
-    )
-    st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
+    # pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
+    #                             value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
+    #                             var_name='Scenario', value_name='FIL')
+    # day_pledge_per_QAP = (
+    #     alt.Chart(pledge_per_qap_df)
+    #     .mark_line()
+    #     .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+    #             y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
+    #     .properties(title="Pledge/32GiB QAP")
+    #     .configure_title(fontSize=14, anchor='middle')
+    # )
+    # st.altair_chart(day_pledge_per_QAP.interactive(), use_container_width=True)
 
 
     supplyflow_df = pd.melt(supplyflow_dff, id_vars=["date"],
