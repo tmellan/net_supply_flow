@@ -49,15 +49,15 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     status_quo_results = scenario_results['status-quo']
     # col1 = st.columns(1)
 
-    # power_dff = pd.DataFrame()
-    # power_dff['RBP'] = status_quo_results['rb_total_power_eib']
-    # power_dff['QAP'] = status_quo_results['qa_total_power_eib']
-    # power_dff['Baseline'] = baseline
-    # power_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
+    power_dff = pd.DataFrame()
+    power_dff['RBP'] = status_quo_results['rb_total_power_eib']
+    power_dff['QAP'] = status_quo_results['qa_total_power_eib']
+    power_dff['Baseline'] = baseline
+    power_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
 
-    # minting_dff = pd.DataFrame()
-    # minting_dff['StatusQuo'] = status_quo_results['block_reward']
-    # minting_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
+    minting_dff = pd.DataFrame()
+    minting_dff['StatusQuo'] = status_quo_results['block_reward']
+    minting_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
 
     pledge_dff = pd.DataFrame()
     pledge_dff['StatusQuo'] = status_quo_results['day_pledge_per_QAP']
@@ -70,24 +70,24 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     supplyflow_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=supplyflow_dff.shape[0]))
     
     # with col1:
-    power_df = pd.melt(power_dff, id_vars=["date"], 
-                        value_vars=[
-                            "Baseline", 
-                            "RBP", "QAP",],
-                        #    "RBP-Pessimistic", "QAP-Pessimistic",
-                        #    "RBP-Optimistic", "QAP-Optimistic"], 
-                        var_name='Power', 
-                        value_name='EIB')
-    power_df['EIB'] = power_df['EIB']
-    power = (
-        alt.Chart(power_df)
-        .mark_line()
-        .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("EIB").scale(type='log'), color=alt.Color('Power', legend=alt.Legend(orient="top", title=None)))
-        .properties(title="Network Power")
-        .configure_title(fontSize=14, anchor='middle')
-    )
-    st.altair_chart(power.interactive(), use_container_width=True) 
+    # power_df = pd.melt(power_dff, id_vars=["date"], 
+    #                     value_vars=[
+    #                         "Baseline", 
+    #                         "RBP", "QAP",],
+    #                     #    "RBP-Pessimistic", "QAP-Pessimistic",
+    #                     #    "RBP-Optimistic", "QAP-Optimistic"], 
+    #                     var_name='Power', 
+    #                     value_name='EIB')
+    # power_df['EIB'] = power_df['EIB']
+    # power = (
+    #     alt.Chart(power_df)
+    #     .mark_line()
+    #     .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
+    #             y=alt.Y("EIB").scale(type='log'), color=alt.Color('Power', legend=alt.Legend(orient="top", title=None)))
+    #     .properties(title="Network Power")
+    #     .configure_title(fontSize=14, anchor='middle')
+    # )
+    # st.altair_chart(power.interactive(), use_container_width=True) 
 
     minting_df = pd.melt(minting_dff, id_vars=["date"],
                             value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
