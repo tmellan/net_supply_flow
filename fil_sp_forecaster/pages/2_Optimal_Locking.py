@@ -13,22 +13,22 @@ def locking_pct_change(TL):
     
 def ROI(reward, pledge, cost, xr, pct_fiat_cost):
     return 100 * (xr * reward - 0.01 * cost * reward * (pct_fiat_cost / 100 + (1 - pct_fiat_cost / 100) * xr)) / (xr * pledge)
-​
+
 TL_values = np.linspace(28, 150, 100)  # Define the range of TL values for plotting
-​
+
 def plot_ROI():
     CostPCTofRewards = st.session_state['cost_pct_rewards']
     XRLockSensitivity = st.session_state['xr_locking_sensitivity']
     PCTCostInFiat = st.session_state['pct_fiat_cost']
-​
+    
     ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), 90, xr(locking_pct_change(TL), 2), 50) for TL in TL_values]
     ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat) for TL in TL_values]
-​
+    
     plot_df = pd.DataFrame()
     plot_df['TL'] = TL_values
     plot_df['ROI (ref)'] = ROI_values_1
     plot_df['ROI (cfg)'] = ROI_values_2
-​
+    
     plot_df = plot_df.melt('TL', var_name='ROI', value_name='Value')
     chart = alt.Chart(plot_df).mark_line().encode(
         x='TL',
@@ -39,14 +39,13 @@ def plot_ROI():
         height=400
     )
     st.altair_chart(chart)
-​
-​
+    
 st.set_page_config(
     page_title="Optimal",
     page_icon="🚀",  # TODO: can update this to the FIL logo
     layout="wide",
 )
-​
+
 with st.sidebar:
     st.slider(
         "CostPctOfRewards", min_value=50, max_value=95, value=60, step=1, key="cost_pct_rewards",
