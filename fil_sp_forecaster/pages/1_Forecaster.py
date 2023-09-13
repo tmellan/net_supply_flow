@@ -255,7 +255,7 @@ def forecast_len():
 
 def main():
     st.set_page_config(
-        page_title="Filecoin Economics Explorer",
+        page_title="Filecoin Net Supply Explorer",
         page_icon="🚀",  # TODO: can update this to the FIL logo
         layout="wide",
     )
