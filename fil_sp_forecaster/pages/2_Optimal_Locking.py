@@ -22,9 +22,9 @@ def plot_ROI():
     XRLockSensitivity = st.session_state['xr_locking_sensitivity']
     PCTCostInFiat = st.session_state['pct_fiat_cost']
 
-    CostPCTofRewards = 90
-    XRLockSensitivity = 10
-    PCTCostInFiat = 80
+    # CostPCTofRewards = 90
+    # XRLockSensitivity = 10
+    # PCTCostInFiat = 80
     
     #ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), 90, xr(locking_pct_change(TL), 2), 50) for TL in TL_values]
     ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat)
