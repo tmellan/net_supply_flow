@@ -53,7 +53,7 @@ with st.sidebar:
         on_change=plot_ROI
     )
     st.slider(
-        "PCTCostInFiat", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
+        "\% of Costs in Paid in Fiat", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
         on_change=plot_ROI
     )
     st.slider(
