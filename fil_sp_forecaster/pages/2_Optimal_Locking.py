@@ -15,7 +15,7 @@ def locking_pct_change(TL):
 def ROI(reward, pledge, cost, xr, pct_fiat_cost):
     return 100 * (xr * reward - 0.01 * cost * reward * (pct_fiat_cost / 100 + (1 - pct_fiat_cost / 100) * xr)) / (xr * pledge)
     
-TL_values = np.linspace(28, 150, 100)  # Define the range of TL values for plotting
+TL_values = np.linspace(30, 150, 100)  # Define the range of TL values for plotting
 
 def plot_ROI():
     CostPCTofRewards = st.session_state['cost_pct_rewards']
