@@ -282,7 +282,7 @@ def main():
     # d.debug(smoothed_last_historical_fil_plus_pct)
 
     with st.sidebar:
-        st.title('Filecoin Economics Explorer')
+        st.title('Filecoin Net Supply Explorer')
 
         # st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%i', key="forecast_length_slider",
         #         on_change=forecast_len, disabled=False, label_visibility="visible")
