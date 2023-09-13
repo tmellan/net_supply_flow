@@ -23,8 +23,8 @@ import mechafil_jax.date_utils as du
 
 import scenario_generator.utils as u
 
-def local_css(file_name):
-    with open(file_name) as f:
+def local_css(e_name):
+    with open(e_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 # local_css("debug.css")
 
@@ -35,7 +35,7 @@ def get_offline_data(start_date, current_date, end_date):
 
     _, hist_rbp = u.get_historical_daily_onboarded_power(current_date-timedelta(days=180), current_date)
     _, hist_rr = u.get_historical_renewal_rate(current_date-timedelta(days=180), current_date)
-    _, hist_fpr = u.get_historical_filplus_rate(current_date-timedelta(days=180), current_date)
+    _, hist_fpr = u.get_historical_plus_rate(current_date-timedelta(days=180), current_date)
 
     smoothed_last_historical_rbp = float(np.median(hist_rbp[-30:]))
     smoothed_last_historical_rr = float(np.median(hist_rr[-30:]))
@@ -91,12 +91,12 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     minting_df = pd.melt(minting_dff, id_vars=["date"],
                             value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                            var_name='Scenario', value_name='FILRate')
+                            var_name='Scenario', value_name='Rate')
     minting = (
         alt.Chart(minting_df)
         .mark_line()
         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FILRate", title='FIL/epoch'), color=alt.Color('Scenario', legend=None))
+                y=alt.Y("Rate", title='/epoch'), color=alt.Color('Scenario', legend=None))
         .properties(title="Block Rewards")
         .configure_title(fontSize=14, anchor='middle')
     )
@@ -104,12 +104,12 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     pledge_per_qap_df = pd.melt(pledge_dff, id_vars=["date"],
                                 value_vars=["StatusQuo"],#, "Pessimistic", "Optimistic"], 
-                                var_name='Scenario', value_name='FIL')
+                                var_name='Scenario', value_name='')
     day_pledge_per_QAP = (
         alt.Chart(pledge_per_qap_df)
         .mark_line()
         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("FIL"), color=alt.Color('Scenario', legend=None))
+                y=alt.Y(""), color=alt.Color('Scenario', legend=None))
         .properties(title="Pledge/32GiB QAP")
         .configure_title(fontSize=14, anchor='middle')
     )
@@ -118,35 +118,35 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     supplyflow_df = pd.melt(supplyflow_dff, id_vars=["date"],
                                 value_vars=["StatusQuo"],
-                                var_name='Scenario', value_name='M-FIL')
+                                var_name='Scenario', value_name='M-')
     supplyflow = (
         alt.Chart(supplyflow_df)
         .mark_line()
         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("M-FIL"), color=alt.Color('Scenario', legend=None))
+                y=alt.Y("M-"), color=alt.Color('Scenario', legend=None))
         .properties(title="Net Supply Flow")
         .configure_title(fontSize=14, anchor='middle')
     )
     st.altair_chart(supplyflow.interactive(), use_container_width=True)
 
 
-def add_costs(results_dict, cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5):
+def add_costs(results_dict, cost_scaling_constant=0.1, p_scaling_cost_pct=0.5):
     # (returns*multiplier - cost)/(pledge*multiplier)
     # TODO: allow user to configure these within reasonable bounds
     # cost_scaling_constant = 0.1
-    # filp_scaling_cost_pct = 0.5
+    # p_scaling_cost_pct = 0.5
 
-    # compute costs for the FIL+ case
+    # compute costs for the + case
     multiplier = 10
     rps = results_dict['1y_return_per_sector']
     dppq = results_dict['day_pledge_per_QAP'][0:len(rps)]
     
-    filp_roi_scaling_costs = dppq*multiplier*cost_scaling_constant
-    filp_roi_total_costs = filp_roi_scaling_costs/filp_scaling_cost_pct
-    roi_fixed_costs = filp_roi_total_costs - filp_roi_scaling_costs
-    results_dict['FIL+'] = 100*(rps*multiplier - filp_roi_total_costs)/(dppq*multiplier)
+    p_roi_scaling_costs = dppq*multiplier*cost_scaling_constant
+    p_roi_total_costs = p_roi_scaling_costs/p_scaling_cost_pct
+    roi_fixed_costs = p_roi_total_costs - p_roi_scaling_costs
+    results_dict['+'] = 100*(rps*multiplier - p_roi_total_costs)/(dppq*multiplier)
 
-    # relative to FIL+, compute costs for the CC case
+    # relative to +, compute costs for the CC case
     multiplier = 1
     cc_roi_scaling_costs = dppq*multiplier*cost_scaling_constant
     cc_roi_total_costs = cc_roi_scaling_costs + roi_fixed_costs
@@ -154,7 +154,7 @@ def add_costs(results_dict, cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5
     return results_dict
 
 def run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length_days, sector_duration_days, burn_boost, offline_data, 
-            cost_scaling_constant=0.1, filp_scaling_cost_pct=0.5):
+            cost_scaling_constant=0.1, p_scaling_cost_pct=0.5):
     simulation_results = sim.run_sim(
         rbp,
         rr,
@@ -168,7 +168,7 @@ def run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length
         burn_boost,
         offline_data
     )
-    # simulation_results = add_costs(simulation_results, cost_scaling_constant, filp_scaling_cost_pct)
+    # simulation_results = add_costs(simulation_results, cost_scaling_constant, p_scaling_cost_pct)
     # pib_per_sector = C.PIB / C.SECTOR_SIZE
     simulation_results['block_reward'] = simulation_results['day_network_reward'] / float(5*2880)
     # # compute yearly cumulative returns
@@ -202,9 +202,9 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     
     rb_onboard_power_pib_day =  st.session_state['rbp_slider']
     renewal_rate_pct = st.session_state['rr_slider']
-    fil_plus_rate_pct = st.session_state['fpr_slider']
+    _plus_rate_pct = st.session_state['fpr_slider']
     # cost_scaling_constant = st.session_state['cost_scaling_constant']
-    # filp_scaling_cost_pct = st.session_state['filp_scaling_cost_pct']
+    # p_scaling_cost_pct = st.session_state['p_scaling_cost_pct']
 
     lock_target = st.session_state['lock_target_slider']
     sector_duration_days = st.session_state['av_dur_slider']
@@ -229,14 +229,14 @@ def forecast_economy(start_date=None, current_date=None, end_date=None, forecast
     for ii, scenario_scaler in enumerate(scenario_scalers):
         rbp_val = rb_onboard_power_pib_day * scenario_scaler
         rr_val = max(0.0, min(1.0, renewal_rate_pct / 100. * scenario_scaler))
-        fpr_val = max(0.0, min(1.0, fil_plus_rate_pct / 100. * scenario_scaler))
+        fpr_val = max(0.0, min(1.0, _plus_rate_pct / 100. * scenario_scaler))
 
         rbp = jnp.ones(forecast_length_days) * rbp_val
         rr = jnp.ones(forecast_length_days) * rr_val
         fpr = jnp.ones(forecast_length_days) * fpr_val
         
         simulation_results = run_sim(rbp, rr, fpr, lock_target, start_date, current_date, forecast_length_days, sector_duration_days,burn_boost, offline_data) 
-                #cost_scaling_constant=cost_scaling_constant, filp_scaling_cost_pct=filp_scaling_cost_pct)
+                #cost_scaling_constant=cost_scaling_constant, p_scaling_cost_pct=p_scaling_cost_pct)
         scenario_results[scenario_strings[ii]] = simulation_results
 
     baseline = minting.compute_baseline_power_array(
@@ -255,8 +255,8 @@ def forecast_len():
 
 def main():
     st.set_page_config(
-        page_title="Filecoin Economics Explorer",
-        page_icon="🚀",  # TODO: can update this to the FIL logo
+        page_title="ecoin Economics Explorer",
+        page_icon="🚀",  # TODO: can update this to the  logo
         layout="wide",
     )
     current_date = date.today() - timedelta(days=3)
@@ -275,14 +275,14 @@ def main():
 
     _, smoothed_last_historical_rbp, smoothed_last_historical_rr, smoothed_last_historical_fpr = get_offline_data(start_date, current_date, end_date)
     smoothed_last_historical_renewal_pct = int(smoothed_last_historical_rr * 100)
-    smoothed_last_historical_fil_plus_pct = int(smoothed_last_historical_fpr * 100)
+    smoothed_last_historical__plus_pct = int(smoothed_last_historical_fpr * 100)
     # d.debug('rbp:%0.02f, rr:%d, fpr:%d' % (smoothed_last_historical_rbp, smoothed_last_historical_rr, smoothed_last_historical_fpr))
     # d.debug(smoothed_last_historical_rbp)
     # d.debug(smoothed_last_historical_renewal_pct)
-    # d.debug(smoothed_last_historical_fil_plus_pct)
+    # d.debug(smoothed_last_historical__plus_pct)
 
     with st.sidebar:
-        st.title('Filecoin Economics Explorer')
+        st.title('ecoin Economics Explorer')
 
         # st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%i', key="forecast_length_slider",
         #         on_change=forecast_len, disabled=False, label_visibility="visible")
@@ -290,7 +290,7 @@ def main():
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Renewal Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical_renewal_pct, step=1, format='%d', key="rr_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        st.slider("FIL+ Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical_fil_plus_pct, step=1, format='%d', key="fpr_slider",
+        st.slider("+ Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical__plus_pct, step=1, format='%d', key="fpr_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Lock Target (Percentage)", min_value=0.1, max_value=0.9, value=0.3, step=0.01, format='%.2f', key="lock_target_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
