@@ -1,7 +1,6 @@
 import streamlit as st
 import altair as alt
 import pandas as pd
-​
 import numpy as np
 ​
 def xr(locking_pct_change, xr_locking_sensitivity):
