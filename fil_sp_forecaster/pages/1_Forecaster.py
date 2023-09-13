@@ -280,7 +280,7 @@ def main():
     mo_start = max(current_date.month - 1 % 12, 1)
     start_date = date(current_date.year, mo_start, 1)
 
-    forecast_length_days=(365*4)
+    forecast_length_days=(365*1)
     end_date = current_date + timedelta(days=forecast_length_days)
     
     forecast_kwargs = {
