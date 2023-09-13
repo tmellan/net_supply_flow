@@ -65,7 +65,7 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
 
     supply_dff = pd.DataFrame()
     supply_dff['StatusQuo'] = status_quo_results['circ_supply'] / 1_000_000
-    minting_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
+    supply_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
     
     supplyflow_dff = pd.DataFrame()
     # .diff().rolling(7).median() / 1_000_000
@@ -132,6 +132,7 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     )
     st.altair_chart(supplyflow.interactive(), use_container_width=True)
 
+    
     supplyflow_df = pd.melt(supplyflow_dff, id_vars=["date"],
                                 value_vars=["StatusQuo"],
                                 var_name='Scenario', value_name='M-FIL')
