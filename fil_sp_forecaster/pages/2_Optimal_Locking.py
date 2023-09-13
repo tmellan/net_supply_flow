@@ -25,7 +25,7 @@ def plot_ROI():
     #ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), 90, xr(locking_pct_change(TL), 2), 50) for TL in TL_values]
     ROI_values_0 = [ROI(0.1, pledge(0.2, locking_pct_change(30)), CostPCTofRewards, xr(locking_pct_change(30), XRLockSensitivity), PCTCostInFiat) for TL in TL_values]
     ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat) for TL in TL_values]
-    ROI_values_2 = ROI_values_1 - ROI_values_0
+    ROI_values_2 = np.array(ROI_values_1) - np.array(ROI_values_0)
     # ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat) for TL in TL_values]
     
     plot_df = pd.DataFrame()
