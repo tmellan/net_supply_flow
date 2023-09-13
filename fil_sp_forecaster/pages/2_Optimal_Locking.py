@@ -21,40 +21,43 @@ def plot_ROI():
     XRLockSensitivity = st.session_state['xr_locking_sensitivity']
     PCTCostInFiat = st.session_state['pct_fiat_cost']
     
+    ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), 90, xr(locking_pct_change(TL), 2), 50) for TL in TL_values]
     ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat) for TL in TL_values]
     
     plot_df = pd.DataFrame()
     plot_df['TL'] = TL_values
-    plot_df['Return on Collateral'] = ROI_values_2
-    
+    plot_df['ROI (ref)'] = ROI_values_1
+    plot_df['ROI (cfg)'] = ROI_values_2
+​
     plot_df = plot_df.melt('TL', var_name='ROI', value_name='Value')
     chart = alt.Chart(plot_df).mark_line().encode(
         x='TL',
-        y='% gain',
+        y='Value',
         color='ROI'
     ).properties(
         width=800,
         height=400
     )
     st.altair_chart(chart)
-    
+​
+​
 st.set_page_config(
     page_title="Optimal",
     page_icon="🚀",  # TODO: can update this to the FIL logo
     layout="wide",
 )
-
+​
 with st.sidebar:
     st.slider(
-        "Costs as a % of Rewards", min_value=50, max_value=95, value=60, step=1, key="cost_pct_rewards",
+        "CostPctOfRewards", min_value=50, max_value=95, value=60, step=1, key="cost_pct_rewards",
         on_change=plot_ROI
     )
     st.slider(
-        "% of costs that scale with XR", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
+        "PCTCostInFiat", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
         on_change=plot_ROI
     )
     st.slider(
-        "XR Locking Sensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
+        "XRLockSensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
         on_change=plot_ROI
     )
     st.button("Run", on_click=plot_ROI)
