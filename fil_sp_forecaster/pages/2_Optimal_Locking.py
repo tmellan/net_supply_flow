@@ -22,12 +22,12 @@ def plot_ROI():
     XRLockSensitivity = st.session_state['xr_locking_sensitivity']
     PCTCostInFiat = st.session_state['pct_fiat_cost']
     
-    ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), 90, xr(locking_pct_change(TL), 2), 50) for TL in TL_values]
+    # ROI_values_1 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), 90, xr(locking_pct_change(TL), 2), 50) for TL in TL_values]
     ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat) for TL in TL_values]
     
     plot_df = pd.DataFrame()
     plot_df['TL'] = TL_values
-    plot_df['ROI (ref)'] = ROI_values_1
+    # plot_df['ROI (ref)'] = ROI_values_1
     plot_df['ROI (cfg)'] = ROI_values_2
     
     plot_df = plot_df.melt('TL', var_name='ROI', value_name='Value')
