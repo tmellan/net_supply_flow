@@ -2,16 +2,15 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 import numpy as np
-​
 def xr(locking_pct_change, xr_locking_sensitivity):
     return 1 + locking_pct_change * xr_locking_sensitivity / 100
-​
+
 def pledge(pledge0, locking_pct_change):
     return pledge0 * (1 + locking_pct_change / 100)
-​
+    
 def locking_pct_change(TL):
     return 100 * (TL / 30 - 1)
-​
+    
 def ROI(reward, pledge, cost, xr, pct_fiat_cost):
     return 100 * (xr * reward - 0.01 * cost * reward * (pct_fiat_cost / 100 + (1 - pct_fiat_cost / 100) * xr)) / (xr * pledge)
 ​
