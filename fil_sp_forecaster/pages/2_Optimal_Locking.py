@@ -32,8 +32,8 @@ def plot_ROI():
     
     plot_df = plot_df.melt('TL', var_name='ROI', value_name='Value')
     chart = alt.Chart(plot_df).mark_line().encode(
-        x=alt.X('TL', title='\% of supply locked'),
-        y='Value',
+        x=alt.X('TL', title='% of supply locked'),
+        y=alt.X('Value', title='Gain on Return on Collateral'),
         # color='ROI'
     ).properties(
         width=800,
