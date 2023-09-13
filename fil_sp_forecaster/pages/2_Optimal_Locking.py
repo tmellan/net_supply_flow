@@ -22,7 +22,7 @@ def plot_ROI():
     XRLockSensitivity = st.session_state['xr_locking_sensitivity']
     PCTCostInFiat = st.session_state['pct_fiat_cost']
 
-    CostPCTofRewards = 90
+    # CostPCTofRewards = 90
     # XRLockSensitivity = 10
     PCTCostInFiat = 80
     
