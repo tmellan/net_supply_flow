@@ -49,15 +49,15 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     status_quo_results = scenario_results['status-quo']
     # col1 = st.columns(1)
 
-    power_dff = pd.DataFrame()
-    power_dff['RBP'] = status_quo_results['rb_total_power_eib']
-    power_dff['QAP'] = status_quo_results['qa_total_power_eib']
-    power_dff['Baseline'] = baseline
-    power_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
+    # power_dff = pd.DataFrame()
+    # power_dff['RBP'] = status_quo_results['rb_total_power_eib']
+    # power_dff['QAP'] = status_quo_results['qa_total_power_eib']
+    # power_dff['Baseline'] = baseline
+    # power_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
 
-    minting_dff = pd.DataFrame()
-    minting_dff['StatusQuo'] = status_quo_results['block_reward']
-    minting_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
+    # minting_dff = pd.DataFrame()
+    # minting_dff['StatusQuo'] = status_quo_results['block_reward']
+    # minting_dff['date'] = pd.to_datetime(du.get_t(start_date, end_date=end_date))
 
     pledge_dff = pd.DataFrame()
     pledge_dff['StatusQuo'] = status_quo_results['day_pledge_per_QAP']
