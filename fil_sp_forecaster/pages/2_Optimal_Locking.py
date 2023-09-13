@@ -49,15 +49,15 @@ st.set_page_config(
 
 with st.sidebar:
     st.slider(
-        "CostPctOfRewards", min_value=50, max_value=95, value=60, step=1, key="cost_pct_rewards",
+        "SP costs as a \% of rewards", min_value=50, max_value=95, value=60, step=1, key="cost_pct_rewards",
         on_change=plot_ROI
     )
     st.slider(
-        "\% of Costs in Paid in Fiat", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
+        "\% of costs in paid in fiat", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
         on_change=plot_ROI
     )
     st.slider(
-        "XR Locking Sensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
+        "XR locking sensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
         on_change=plot_ROI
     )
     st.button("Run", on_click=plot_ROI)
