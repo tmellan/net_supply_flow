@@ -27,11 +27,11 @@ def plot_ROI():
     plot_df['TL'] = TL_values
     plot_df['Return on Collateral'] = ROI_values_2
     
-    plot_df = plot_df.melt('TL', var_name='ROI', value_name='Value')
+    plot_df = plot_df.melt('TL', var_name='Return on Collateral', value_name='Value')
     chart = alt.Chart(plot_df).mark_line().encode(
         x='TL',
         y='% gain',
-        color='ROI'
+        color='Return on Collateral'
     ).properties(
         width=800,
         height=400
@@ -50,11 +50,11 @@ with st.sidebar:
         on_change=plot_ROI
     )
     st.slider(
-        "PCTCostInFiat", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
+        "Csts that scale  in ", min_value=1, max_value=10, value=5, step=1, key="xr_locking_sensitivity",
         on_change=plot_ROI
     )
     st.slider(
-        "XRLockSensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
+        "XR Locking Sensitivity", min_value=50, max_value=95, value=60, step=1, key="pct_fiat_cost",
         on_change=plot_ROI
     )
     st.button("Run", on_click=plot_ROI)
