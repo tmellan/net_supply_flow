@@ -292,11 +292,11 @@ def main():
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("FIL+ Rate (Percentage)", min_value=10, max_value=99, value=smoothed_last_historical_fil_plus_pct, step=1, format='%d', key="fpr_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        st.slider("Lock Target", min_value=0.1, max_value=0.9, value=0.3, step=0.01, format='%.2f', key="lock_target_slider",
+        st.slider("Lock Target (Percentage)", min_value=0.1, max_value=0.9, value=0.3, step=0.01, format='%.2f', key="lock_target_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        st.slider("Average Sector Duration", min_value=180, max_value=540, value=360, step=10, format='%d', key="av_dur_slider",
+        st.slider("Average Sector Duration (Days)", min_value=180, max_value=540, value=360, step=10, format='%d', key="av_dur_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
-        st.slider("Burn XFactor", min_value=0.1, max_value=10., value=1., step=0.1, format='%.2f', key="burn_factor_slider",
+        st.slider("Burn Factor (Multiplicative)", min_value=0.1, max_value=10., value=1., step=0.1, format='%.2f', key="burn_factor_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
 
 
