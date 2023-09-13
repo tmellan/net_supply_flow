@@ -123,7 +123,7 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
         alt.Chart(supplyflow_df)
         .mark_line()
         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
-                y=alt.Y("k-FIL"), color=alt.Color('Scenario', legend=None))
+                y=alt.Y("M-FIL"), color=alt.Color('Scenario', legend=None))
         .properties(title="Net Supply Flow")
         .configure_title(fontSize=14, anchor='middle')
     )
