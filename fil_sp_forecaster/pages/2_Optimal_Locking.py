@@ -24,7 +24,7 @@ def plot_ROI():
 
     # CostPCTofRewards = 90
     # XRLockSensitivity = 10
-    PCTCostInFiat = 80
+    # PCTCostInFiat = 80
     
     ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat)
                     - ROI(0.1, pledge(0.2, locking_pct_change(30)), CostPCTofRewards, xr(locking_pct_change(30), XRLockSensitivity), PCTCostInFiat)
@@ -58,11 +58,11 @@ with st.sidebar:
         on_change=plot_ROI
     )
     st.slider(
-        "\% of costs in paid in fiat", min_value=50, max_value=95, value=80, step=1, key="xr_locking_sensitivity",
+        "\% of costs in paid in fiat", min_value=50, max_value=95, value=80, step=1, key="pct_fiat_cost",
         on_change=plot_ROI
     )
     st.slider(
-        "XR locking sensitivity", min_value=1, max_value=25, value=10, step=1, key="pct_fiat_cost",
+        "XR locking sensitivity", min_value=1, max_value=25, value=10, step=1, key="xr_locking_sensitivity",
         on_change=plot_ROI
     )
     st.button("Run", on_click=plot_ROI)
