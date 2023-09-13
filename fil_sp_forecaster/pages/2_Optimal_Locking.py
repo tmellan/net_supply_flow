@@ -20,11 +20,11 @@ TL_values = np.linspace(30, 90, 100)  # Define the range of TL values for plotti
 def plot_ROI():
     CostPCTofRewards = st.session_state['cost_pct_rewards']
     XRLockSensitivity = st.session_state['xr_locking_sensitivity']
-    # PCTCostInFiat = st.session_state['pct_fiat_cost']
+    PCTCostInFiat = st.session_state['pct_fiat_cost']
 
     CostPCTofRewards = 90
     XRLockSensitivity = 10
-    PCTCostInFiat = 80
+    # PCTCostInFiat = 80
     
     ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat)
                     - ROI(0.1, pledge(0.2, locking_pct_change(30)), CostPCTofRewards, xr(locking_pct_change(30), XRLockSensitivity), PCTCostInFiat)
