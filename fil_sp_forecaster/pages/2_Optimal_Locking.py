@@ -42,7 +42,8 @@ def plot_ROI():
         # color='ROI'
     ).properties(
         width=800,
-        height=400
+        height=400,
+        title="Return on Collateral"
     )
     st.altair_chart(chart)
     
