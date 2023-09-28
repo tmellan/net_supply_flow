@@ -14,16 +14,15 @@ st.markdown(
     ### Filecoin Deflationary Supply Explorer
     This web-app uses a digital twin of the Filecoin Economy to explore change in net supply flow, given some user defined assumptions about storage provider behavior.
     
-    To learn more about the model assumptions and design, please refer to:
-     1. Our [GitHub repository](https://github.com/protocol/mechafil-jax).
-     2. Section 3 of our paper on [Agent Based Modeling of the Filecoin Economy](https://arxiv.org/pdf/2307.15200.pdf), published at Chainscience 2023.
+    To learn more about the underlaying model assumptions and design, please refer to:
+     1. [GitHub repository](https://github.com/protocol/mechafil-jax).
+     2. Section 3 of [Agent Based Modeling of the Filecoin Economy](https://arxiv.org/pdf/2307.15200.pdf), published at Chainscience 2023.
     
     ### How to use this app
     
-    **👈 Select "Forecaster" from the sidebar** to get started. 
+    **👈 Select "Supply Forecaster" from the sidebar** to get started. 
     
-    In that page, you will see three slider bars allow you to configure future engagement with the Filecoin network.
-    The three parameters are:
+    In this page, you can simulate whether future supply will be inflationary or deflationary over the next 12 months. The simulation depends on the configuraiton of:
 
      - **RB Onboarding Rate** - This is the amount of raw-byte power that is onboarded every day onto the network, in units of PiB/day.
      - **Renewal Rate** - This is the percentage of sectors which are expiring that are renewed.
