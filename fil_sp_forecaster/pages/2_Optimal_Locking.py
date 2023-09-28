@@ -37,13 +37,13 @@ def plot_ROI():
     
     plot_df = plot_df.melt('TL', var_name='ROI', value_name='Value')
     chart = alt.Chart(plot_df).mark_line().encode(
-        x=alt.X('TL', title='% of supply locked'),
-        y=alt.Y('Value', title='% change'),
+        x=alt.X('TL', title='Locked Supply (%)'),
+        y=alt.Y('Value', title='%'),
         # color='ROI'
     ).properties(
         width=800,
         height=400,
-        title="Return on Collateral"
+        title="Fiat ROI boost"
     )
     st.altair_chart(chart)
     
