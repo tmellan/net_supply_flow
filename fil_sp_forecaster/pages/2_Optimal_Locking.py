@@ -59,11 +59,11 @@ with st.sidebar:
         on_change=plot_ROI
     )
     st.slider(
-        "\% of costs in paid in fiat", min_value=50, max_value=95, value=80, step=1, key="pct_fiat_cost",
+        "\% of SP costs paid in fiat", min_value=50, max_value=95, value=80, step=1, key="pct_fiat_cost",
         on_change=plot_ROI
     )
     st.slider(
-        "XR locking sensitivity", min_value=1, max_value=25, value=10, step=1, key="xr_locking_sensitivity",
+        "XR sensitivity to locking/supply", min_value=1, max_value=25, value=10, step=1, key="xr_locking_sensitivity",
         on_change=plot_ROI
     )
     st.button("Run", on_click=plot_ROI)
