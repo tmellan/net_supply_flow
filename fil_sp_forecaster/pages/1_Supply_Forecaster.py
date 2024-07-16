@@ -303,7 +303,7 @@ def main():
 
         # st.slider("Forecast Length", min_value=365, max_value=3650, value=720, step=100, format='%i', key="forecast_length_slider",
         #         on_change=forecast_len, disabled=False, label_visibility="visible")
-        st.slider("Raw Byte Onboarding (PiB/day)", min_value=3., max_value=50., value=smoothed_last_historical_rbp, step=.1, format='%0.02f', key="rbp_slider",
+        st.slider("Raw Byte Onboarding (PiB/day)", min_value=1., max_value=50., value=smoothed_last_historical_rbp, step=.1, format='%0.02f', key="rbp_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
         st.slider("Renewal Rate (Percentage)", min_value=10, max_value=99, value=95, step=1, format='%d', key="rr_slider",
                 on_change=forecast_economy, kwargs=forecast_kwargs, disabled=False, label_visibility="visible")
