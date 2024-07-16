@@ -141,7 +141,7 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
         .mark_line()
         .encode(x=alt.X("date", title="", axis=alt.Axis(labelAngle=-45)), 
                 y=alt.Y("M-FIL"), color=alt.Color('Scenario', legend=None))
-        .properties(title="Net Supply Change Per Day")
+        .properties(title="2024 Simulation: Net Supply Change Per Day")
         .configure_title(fontSize=14, anchor='middle')
     )
     st.altair_chart(supplyflow.interactive(), use_container_width=True)
