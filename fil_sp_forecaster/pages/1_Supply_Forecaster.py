@@ -72,6 +72,9 @@ def plot_panel(scenario_results, baseline, start_date, current_date, end_date):
     supplyflow_dff['StatusQuo'] = status_quo_results['circ_supply']
     supplyflow_dff['StatusQuo'] = supplyflow_dff['StatusQuo'].diff().rolling(7).median().dropna() / 1_000_000
     supplyflow_dff['date'] = pd.to_datetime(du.get_t(start_date, forecast_length=supplyflow_dff.shape[0]))
+
+    supplyflow_dff = supplyflow_dff.dropna()
+    supplyflow_dff = supplyflow_dff[supplyflow_dff['date'] > pd.to_datetime(start_date+timedelta(days=30))]
     
     # with col1:
     # power_df = pd.melt(power_dff, id_vars=["date"], 
@@ -278,7 +281,8 @@ def main():
     )
     current_date = date.today() - timedelta(days=3)
     # mo_start = max(current_date.month - 1 % 12, 1)
-    mo_start = max((current_date.month) % 12, 1)
+    # mo_start = max((current_date.month) % 12, 1)
+    mo_start = current_date.month
     start_date = date(current_date.year, mo_start, 1)
 
     forecast_length_days=(365*1)
