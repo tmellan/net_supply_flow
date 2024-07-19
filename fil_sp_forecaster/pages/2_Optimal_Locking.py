@@ -26,8 +26,11 @@ def plot_ROI():
     # XRLockSensitivity = 10
     # PCTCostInFiat = 80
     
-    ROI_values_2 = [ROI(0.1, pledge(0.2, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat)
-                    - ROI(0.1, pledge(0.2, locking_pct_change(30)), CostPCTofRewards, xr(locking_pct_change(30), XRLockSensitivity), PCTCostInFiat)
+    # https://filfox.info/en:
+    FIL_Reward_per_SectorYear = 0.051328124999999995
+    FIL_Pledge_per_Sector = 0.051328124999999995
+    ROI_values_2 = [ROI(FIL_Reward_per_SectorYear, pledge(FIL_Pledge_per_Sector, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat)
+                    - ROI(FIL_Reward_per_SectorYear, pledge(FIL_Pledge_per_Sector, locking_pct_change(30)), CostPCTofRewards, xr(locking_pct_change(30), XRLockSensitivity), PCTCostInFiat)
                     for TL in TL_values]
     
     plot_df = pd.DataFrame()
