@@ -28,7 +28,7 @@ def plot_ROI():
     
     # https://filfox.info/en:
     FIL_Reward_per_SectorYear = 0.051328124999999995
-    FIL_Pledge_per_Sector = 0.051328124999999995
+    FIL_Pledge_per_Sector = 0.1492
     ROI_values_2 = [ROI(FIL_Reward_per_SectorYear, pledge(FIL_Pledge_per_Sector, locking_pct_change(TL)), CostPCTofRewards, xr(locking_pct_change(TL), XRLockSensitivity), PCTCostInFiat)
                     - ROI(FIL_Reward_per_SectorYear, pledge(FIL_Pledge_per_Sector, locking_pct_change(30)), CostPCTofRewards, xr(locking_pct_change(30), XRLockSensitivity), PCTCostInFiat)
                     for TL in TL_values]
